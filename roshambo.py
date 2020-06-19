@@ -8,8 +8,25 @@ each competitor.
 """
 
 import random
+import time
 
 moves = ["scissors", "paper", "rock", "lizard", "Spock"]
+
+
+def print_pause(msg):
+    print(msg.upper())
+    time.sleep(0.5)
+
+
+def intro():
+    print_pause("This program plays a game of "
+                "Rock Paper Scissors Spock Lizard")
+    print_pause("between two players, "
+                "and reports both player's scores each round.")
+    print_pause("It allows the user "
+                "to select one of 5 different player types for "
+                "each competitor.")
+    print_pause("\nRock Paper Scissors Spock Lizard, Go!")
 
 
 class Player:
@@ -201,7 +218,7 @@ def select_player(player_desc, other_player):
 
 if __name__ == '__main__':
     while True:
-        print("\nRock Paper Scissors Spock Lizard, Go!")
+        intro()
 
         # select player types
         p1 = select_player("one", None)
