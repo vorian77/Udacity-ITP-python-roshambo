@@ -99,7 +99,7 @@ class CyclePlayer(Player):
 
     def move(self):
         self.move_cnt += 1
-        idx = self.move_cnt % 3
+        idx = self.move_cnt % len(moves)
         return moves[idx]
 
 
