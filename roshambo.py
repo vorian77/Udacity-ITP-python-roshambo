@@ -32,6 +32,7 @@ def intro():
 class Player:
     def __init__(self):
         self.score = 0
+        self.type = ""
 
     def move(self):
         pass
@@ -49,6 +50,7 @@ class Player:
 class RockPlayer(Player):
     def __init__(self):
         super().__init__()
+        self.type = "rock"
 
     def move(self):
         return moves[2]
@@ -57,6 +59,7 @@ class RockPlayer(Player):
 class HumanPlayer(Player):
     def __init__(self):
         super().__init__()
+        self.type = "human"
 
         self.prompt = ", ".join(moves)
         self.prompt = self.prompt[0].upper() + self.prompt[1:]
@@ -72,6 +75,10 @@ class HumanPlayer(Player):
 
 class RandomPlayer(Player):
     # moves by making random selection among move choices
+    def __init__(self):
+        super().__init__()
+        self.type = "random"
+
     def move(self):
         return random.choice(moves)
 
@@ -81,6 +88,7 @@ class ReflectPlayer(Player):
     # first move is random choice
     def __init__(self):
         super().__init__()
+        self.type = "reflect"
         self.last_opponent_move = random.choice(moves)  # first move random
 
     def move(self):
@@ -95,6 +103,7 @@ class CyclePlayer(Player):
     # first move is random choice
     def __init__(self):
         super().__init__()
+        self.type = "cycle"
         self.move_cnt = -1
 
     def move(self):
@@ -174,7 +183,7 @@ class Game:
                 break
 
 
-def select_player(player_desc, other_player):
+def select_player(player_desc, other_player_type):
     # allow user to select player type
     # but not a combination of player types
     # that will produce an infinite loop
@@ -183,17 +192,16 @@ def select_player(player_desc, other_player):
                     ["cycle", CyclePlayer()],
                     ["random", RandomPlayer()],
                     ["reflect", ReflectPlayer()]]
-    prevent_duplicate_type = ""
+    prevent_duplicate_types = []
     player_type_options = {}
 
-    # if matching the type of the second player to the type of the first player
-    # will cause the program to run in an infinite loop, don't include the
-    # type of the first player in the options for the type of the second player
-    cause_loop = ["rock", "cycle"]
-    if other_player is not None:
+    # do not allow player combinations that could possibly
+    # create an infinate loop
+    cause_loop = [["rock", ["rock", "reflect"]], ["cycle", ["cycle"]]]
+    if other_player_type is not None:
         for item in cause_loop:
-            if item in str(type(other_player)).lower():
-                prevent_duplicate_type = item
+            if item[0] == other_player_type:
+                prevent_duplicate_types = item[1]
                 break
 
     # create player_type_options and user input prompt
@@ -201,7 +209,7 @@ def select_player(player_desc, other_player):
     for player_type in player_types:
         player_type_name = player_type[0]
         player_type_object = player_type[1]
-        if player_type_name != prevent_duplicate_type:
+        if player_type_name not in prevent_duplicate_types:
             player_type_options[player_type_name] = player_type_object
             if prompt != "":
                 prompt += ", "
@@ -217,11 +225,11 @@ def select_player(player_desc, other_player):
 
 if __name__ == '__main__':
     while True:
-        intro()
+        #intro()
 
         # select player types
         p1 = select_player("one", None)
-        p2 = select_player("two", p1)
+        p2 = select_player("two", p1.type)
 
         # init and play game
         game = Game(p1, p2)
