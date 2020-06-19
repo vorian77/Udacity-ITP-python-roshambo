@@ -30,7 +30,6 @@ def intro():
 
 
 class Player:
-    # base Player class - only plays "rock" as a its move
     def __init__(self):
         self.score = 0
 
@@ -52,7 +51,7 @@ class RockPlayer(Player):
         super().__init__()
 
     def move(self):
-        return "rock"
+        return moves[2]
 
 
 class HumanPlayer(Player):
