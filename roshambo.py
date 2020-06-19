@@ -64,9 +64,9 @@ class HumanPlayer(Player):
 
     def move(self):
         while True:
-            inp = input(self.prompt)
+            inp = input(self.prompt).lower().strip()
             for move in moves:
-                if inp.lower() == move.lower():
+                if inp == move.lower():
                     return inp
 
 
