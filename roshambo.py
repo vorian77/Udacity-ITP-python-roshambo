@@ -167,10 +167,10 @@ class Game:
 
     def play_match(self):
         SCORE_TO_WIN = 3
-        round = 0
+        match_round = 0
         while True:
-            round += 1
-            print(f"\nRound {round} --")
+            match_round += 1
+            print(f"\nRound {match_round} --")
             self.play_round()
 
             # check: p1 won match
