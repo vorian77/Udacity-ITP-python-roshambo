@@ -2,7 +2,9 @@
 
 An advanced (5 versus 3 option) implementation of the classic Roshambo game.
 
-Provides play between two players, which are selected by the user. Players may be human or one of four algorithms.
+Provides play between two players, which are selected by the user. 
+
+Players may be human or one of four algorithms.
 
 
 ## Table of Contents
